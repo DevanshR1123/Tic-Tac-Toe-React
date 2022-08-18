@@ -1,0 +1,251 @@
+:root {
+  --cell-size: 20vw;
+  --X-color: aqua;
+  --O-color: coral;
+  --line-speed: 300ms;
+}
+
+.App {
+  display: grid;
+  grid-template-rows: auto calc(var(--cell-size) * 3 + 1rem) auto;
+}
+
+.player-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  background-color: #aaa;
+}
+
+.player-display::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  border: gold 4px solid;
+  top: 0;
+  transition: ease-in-out 250ms;
+  box-sizing: border-box;
+}
+
+.player-display.left::before {
+  left: 0;
+}
+.player-display.right::before {
+  left: 50%;
+}
+
+.player-display.draw::before {
+  left: 0;
+  width: 100%;
+}
+
+.player {
+  font-weight: 900;
+  padding: 0.5em;
+  font-size: 1.25em;
+  display: grid;
+  place-items: center;
+}
+
+.p1 > .player-icon {
+  color: var(--X-color);
+  margin-right: 0.25em;
+}
+.p2 > .player-icon {
+  color: var(--O-color);
+  margin-left: 0.25em;
+}
+
+.p1 {
+  grid-template-columns: 20% auto 20%;
+}
+
+.p2 {
+  grid-template-columns: 20% auto 20%;
+}
+
+.win-icon {
+  color: transparent;
+}
+
+.win > .win-icon {
+  color: gold;
+}
+
+.tie {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: transparent;
+}
+
+.player-display.draw > .tie {
+  color: gold;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.25em;
+  background: black;
+  height: max-content;
+  width: max-content;
+  position: relative;
+}
+
+.cell {
+  background-color: rgba(169, 169, 169, 0.4);
+  display: grid;
+  place-items: center;
+  font-size: var(--cell-size);
+  height: var(--cell-size);
+  width: var(--cell-size);
+}
+
+.empty-cell:is(:hover, :focus) {
+  background-color: rgba(169, 169, 169, 0.7);
+}
+
+.empty-cell {
+  cursor: pointer;
+}
+
+.X {
+  color: var(--X-color);
+}
+
+.O {
+  color: var(--O-color);
+}
+
+.winLine {
+  position: absolute;
+  outline: black 0.25em solid;
+}
+
+.win-p1 {
+  outline-color: var(--O-color);
+}
+.win-p2 {
+  outline-color: var(--X-color);
+}
+.no-win {
+  outline: none;
+}
+
+.horizontal {
+  left: 5%;
+  width: 0;
+  animation: rowWin var(--line-speed) ease-in-out forwards;
+}
+.vertical {
+  top: 5%;
+  height: 0;
+  animation: colWin var(--line-speed) ease-in-out forwards;
+}
+
+.top-row {
+  top: calc(var(--cell-size) / 2);
+}
+.mid-row {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.bot-row {
+  bottom: calc(var(--cell-size) / 2);
+}
+.left-col {
+  left: calc(var(--cell-size) / 2);
+}
+.mid-col {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.right-col {
+  right: calc(var(--cell-size) / 2);
+}
+.diag1 {
+  top: calc(var(--cell-size) / 8);
+  left: calc(var(--cell-size) / 8);
+  width: 0;
+  transform: rotateZ(45deg);
+  animation: diag1Win var(--line-speed) ease-in-out forwards;
+  transform-origin: left;
+}
+.diag2 {
+  top: calc(var(--cell-size) / 8);
+  right: calc(var(--cell-size) / 8);
+  width: 0;
+  transform: rotateZ(-45deg);
+  animation: diag2Win var(--line-speed) ease-in-out forwards;
+  transform-origin: right;
+}
+
+@keyframes rowWin {
+  to {
+    width: 90%;
+  }
+}
+
+@keyframes colWin {
+  to {
+    height: 90%;
+  }
+}
+
+@keyframes diag1Win {
+  to {
+    width: 100%;
+    transform: rotateZ(45deg) scaleX(1.3);
+  }
+}
+@keyframes diag2Win {
+  to {
+    width: 100%;
+    transform: rotateZ(-45deg) scaleX(1.3);
+  }
+}
+
+.options {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: column;
+}
+
+.opt-btn {
+  cursor: pointer;
+  display: inline-block;
+  color: #aaa;
+}
+
+.reset-btn {
+  transition: 100ms ease-in-out;
+  transform: rotateZ(20deg);
+}
+
+.reset-btn:active {
+  transform: rotateZ(45deg);
+}
+
+/* .sp-btn {
+}
+
+.mp-options {
+}
+
+.mp-btn {
+} */
+
+@media screen and (max-aspect-ratio: 1 / 1) {
+  :root {
+    --cell-size: 25vw;
+  }
+}
+@media screen and (min-aspect-ratio: 1 / 1) {
+  :root {
+    --cell-size: 23vh;
+  }
+}
